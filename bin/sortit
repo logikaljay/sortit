@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+var Path = require('path')
+var program = require('commander')
+var colors = require('colors')
+
+var Finder = require('../src/finder')
+var Sorter = require('../src/sorter')
+var Extractor = require('../src/extractor')
+
+
+program
+    .version(require(__dirname + "/../package.json").version)
+    .usage('[options] <path>')
+    .option('-t, --tv [path]', 'path to tv folder')
+    .option('-u, --unsorted [path]', 'path to unsorted folder')
+    .parse(process.argv)
+
+if ( ! program.tv || ! program.unsorted) {
+    program.outputHelp(colors.red)
+}
+else {
+    var pwd = program.args.length > 0 ? program.args[0] : process.env.PWD
+
+    var found = Finder(pwd)
+
+    if ( ! found) {
+        console.log('No archive found for sorting')
+    }
+
+    if (found) {
+        var obj = Sorter(found)
+        console.log(obj)
+
+        // work out where we are storing this
+        var path = obj.tv ? Path.join(program.tv, obj.sorted) : Path.join(program.unsorted, obj.unsorted)
+
+        // start the extractor
+        Extractor(Path.join(pwd, obj.archive), path)
+    }
+}

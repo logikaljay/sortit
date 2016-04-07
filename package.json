@@ -1,15 +1,17 @@
 {
   "name": "sortit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "sortit": "./bin/sortit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "thetv": "^0.1.1"
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
+    "thetv": "^0.1.2"
   },
   "devDependencies": {
     "code": "^2.2.0",
